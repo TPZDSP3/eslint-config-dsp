@@ -1,0 +1,4 @@
+**/server/**/*.html
+build
+coverage
+node_modules
