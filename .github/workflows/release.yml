@@ -1,0 +1,40 @@
+name: RELEASE
+
+on:
+  repository_dispatch:
+    types: [make_release]
+    branches:
+      - master
+  workflow_dispatch:
+    branches:
+      - master
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+
+      - name: Cache Node Modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: eslint-config-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            eslint-config-
+
+      - name: Build Release
+        env:
+          CI: true
+          GITHUB_TOKEN: ${{ secrets.ASTROSAT_GITHUB_RELEASE_TOKEN }}
+          GITHUB_REGISTRY_TOKEN: ${{ secrets.ASTROSAT_GITHUB_REGISTRY_TOKEN }}
+        run: |
+          echo "REGISTRY TOKEN: ${{ secrets.ASTROSAT_GITHUB_REGISTRY_TOKEN }}"
+          yarn install
+          yarn release
