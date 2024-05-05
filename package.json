@@ -1,0 +1,49 @@
+{
+  "name": "@mark-small/eslint-config-marksmall",
+  "version": "1.0.0",
+  "description": "re-usable config for ESLint",
+  "main": "index.js",
+  "engines": {
+    "npm": ">=9.0.0",
+    "node": ">=18.0.0"
+  },
+  "packageManager": "yarn@1.22.19",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marksmall/eslint-config-marksmall.git"
+  },
+  "keywords": [
+    "eslint",
+    "config",
+    "eslintconfig"
+  ],
+  "author": "Mark Small <marksmall@gmx.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/marksmall/eslint-config-marksmall/issues"
+  },
+  "homepage": "https://github.com/marksmall/eslint-config-marksmall#readme",
+  "scripts": {
+    "clean": "rm -rf node_modules",
+    "release": "yarn clean && yarn && semantic-release"
+  },
+  "peerDependencies": {
+    "eslint": "^8.49.0"
+  },
+  "dependencies": {
+    "eslint": "^8.49.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "semantic-release": "^22.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^9.3.3",
+    "@testing-library/jest-dom": "^6.1.3"
+  }
+}
