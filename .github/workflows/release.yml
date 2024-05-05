@@ -4,37 +4,39 @@ on:
   repository_dispatch:
     types: [make_release]
     branches:
-      - master
+      - main
   workflow_dispatch:
     branches:
-      - master
+      - main
+
+permissions:
+  contents: write
 
 jobs:
   release:
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v1
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 18.x
 
       - name: Cache Node Modules
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: node_modules
-          key: eslint-config-${{ hashFiles('**/yarn.lock') }}
+          key: semantic-config-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            eslint-config-
+            semantic-config-
 
       - name: Build Release
         env:
           CI: true
-          GITHUB_TOKEN: ${{ secrets.ASTROSAT_GITHUB_RELEASE_TOKEN }}
-          GITHUB_REGISTRY_TOKEN: ${{ secrets.ASTROSAT_GITHUB_REGISTRY_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_PUBLISHING_TOKEN }}
         run: |
-          echo "REGISTRY TOKEN: ${{ secrets.ASTROSAT_GITHUB_REGISTRY_TOKEN }}"
           yarn install
           yarn release

@@ -1,3 +1,3 @@
 module.exports = {
-  ...require('@astrosat/semantic-release-config'),
+  ...require('@mark-small/semantic-release-config-marksmall'),
 };

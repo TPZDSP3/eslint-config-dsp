@@ -43,7 +43,11 @@
     "semantic-release": "^22.0.0"
   },
   "devDependencies": {
+    "@mark-small/semantic-release-config-marksmall": "^1.0.1",
     "@testing-library/dom": "^9.3.3",
     "@testing-library/jest-dom": "^6.1.3"
+  },
+  "release": {
+    "extends": "./release.config.js"
   }
 }
