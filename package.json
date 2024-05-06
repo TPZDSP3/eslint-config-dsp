@@ -1,6 +1,6 @@
 {
   "name": "@mark-small/eslint-config-marksmall",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "re-usable config for ESLint",
   "main": "index.js",
   "engines": {
