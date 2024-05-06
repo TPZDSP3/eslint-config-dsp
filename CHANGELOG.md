@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/marksmall/eslint-config-marksmall/compare/v1.0.0...v1.0.1) (2024-05-06)
+
+
+### Bug Fixes
+
+* **project:** Update package version ([3bf6020](https://github.com/marksmall/eslint-config-marksmall/commit/3bf60206d7cbae661a337a9fc1f4ec1637ff30be))
+
 # 1.0.0 (2024-05-06)
 
 
