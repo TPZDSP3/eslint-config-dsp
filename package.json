@@ -1,5 +1,5 @@
 {
-  "name": "@dsptpz/eslint-config-dsp",
+  "name": "@tpzdsp/eslint-config-dsp",
   "version": "1.0.0",
   "description": "re-usable config for ESLint",
   "main": "index.js",
