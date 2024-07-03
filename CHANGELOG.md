@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/tpzdsp3/eslint-config-dsp/compare/v1.0.0...v1.0.1) (2024-07-03)
+
+
+### Bug Fixes
+
+* **project:** Correct org part of name attribute ([7248795](https://github.com/tpzdsp3/eslint-config-dsp/commit/7248795894a1bd8743ab2d474dbb60438ee4941a))
+
 # 1.0.0 (2024-07-03)
 
 
