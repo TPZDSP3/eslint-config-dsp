@@ -1,104 +1,102 @@
-module.exports = {
-  env: {
-    browser: true,
-    es2021: true,
-    node: true,
-  },
-  extends: [
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
-    'plugin:react-hooks/recommended',
-    'plugin:import/recommended',
-    'plugin:import/typescript',
-  ],
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
+import js from '@eslint/js';
+import tsEslint from '@typescript-eslint/eslint-plugin';
+import tsEslintParser from '@typescript-eslint/parser';
+import react from 'eslint-plugin-react';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
+import importPlugin from 'eslint-plugin-import';
+import vitest from 'eslint-plugin-vitest';
+import jestDom from 'eslint-plugin-jest-dom';
+import prettier from 'eslint-plugin-prettier';
+import next from '@next/eslint-plugin-next';
+
+export default [
+  js.configs.recommended,
+  {
+    files: ['**/*.ts', '**/*.tsx'],
+    languageOptions: {
+      parser: tsEslintParser,
+      parserOptions: {
+        project: true,
+      },
     },
-    ecmaVersion: 'latest',
-    sourceType: 'module',
+    plugins: {
+      '@typescript-eslint': tsEslint,
+    },
+    rules: {
+      ...tsEslint.configs.recommended.rules,
+      ...tsEslint.configs['stylistic-type-checked'].rules,
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    },
   },
-  plugins: ['react', '@typescript-eslint', 'react-hooks', 'prettier', 'import'],
-  rules: {
-    'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn',
-    'react/react-in-jsx-scope': 'off',
-    'import/no-unresolved': 'error',
-    'no-duplicate-imports': 'error',
-    'no-multiple-empty-lines': [
-      'error',
-      {
-        max: 1,
-        maxEOF: 0,
-        maxBOF: 0,
-      },
-    ],
-    'import/first': 'error',
-    'import/newline-after-import': 'error',
-    'import/no-duplicates': 'error',
-    'import/no-unassigned-import': [
-      'error',
-      {
-        allow: ['**/*.css', '**/i18n/i18n'],
-      },
-    ],
-    'import/order': [
-      'error',
-      {
-        groups: ['builtin', 'external', 'internal', ['parent', 'sibling'], 'index'],
-        pathGroups: [
-          {
-            pattern: 'react',
-            group: 'external',
-            position: 'before',
-          },
-          {
-            pattern: '~/**',
-            group: 'internal',
-            position: 'before',
-          },
-        ],
-        pathGroupsExcludedImportTypes: ['builtin'],
-        alphabetize: {
-          order: 'asc',
-          caseInsensitive: true,
+  {
+    files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx'],
+    plugins: {
+      react,
+      'jsx-a11y': jsxA11y,
+      import: importPlugin,
+      prettier,
+    },
+    rules: {
+      ...react.configs.recommended.rules,
+      ...jsxA11y.configs.recommended.rules,
+      'import/order': [
+        'error',
+        {
+          groups: [
+            ['builtin', 'external'], // React and NPM modules
+            'internal', // Absolute imports from the same project
+            ['parent', 'sibling', 'index'], // Relative imports
+            'object', // TypeScript Type imports
+          ],
+          'newlines-between': 'always',
+          'alphabetize': { order: 'asc', caseInsensitive: true },
+          'pathGroups': [
+            {
+              pattern: 'react',
+              group: 'builtin',
+              position: 'before',
+            },
+          ],
+          'pathGroupsExcludedImportTypes': ['react'],
         },
-        'newlines-between': 'always',
-      },
-    ],
-    'sort-imports': [
-      'error',
-      {
-        allowSeparatedGroups: true,
-        ignoreDeclarationSort: true,
-      },
-    ],
-    'react/jsx-sort-props': [
-      'warn',
-      {
-        callbacksLast: true,
-        shorthandFirst: true,
-        noSortAlphabetically: false,
-        reservedFirst: true,
-      },
-    ],
-  },
-  settings: {
-    react: {
-      version: 'detect',
+      ],
+      'prettier/prettier': 'error',
     },
-    'import/resolver': {
-      node: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    settings: {
+      react: {
+        version: 'detect',
       },
-      alias: {
-        map: [['~', 'src']],
-        extensions: ['.ts', '.js', '.jsx', '.json'],
-      },
-      typescript: {},
     },
   },
-};
+  {
+    files: ['**/*.test.{js,jsx,ts,tsx}', '**/__tests__/**/*.{js,jsx,ts,tsx}'],
+    plugins: {
+      vitest,
+      'jest-dom': jestDom,
+    },
+    rules: {
+      ...vitest.configs.recommended.rules,
+      'jest-dom/prefer-checked': 'warn',
+      'jest-dom/prefer-enabled-disabled': 'warn',
+      'jest-dom/prefer-required': 'warn',
+    },
+  },
+  {
+    files: ['**/*.ts', '**/*.tsx'],
+    ignores: ['node_modules/', 'dist/', 'build/'],
+  },
+  {
+    // Apply Next.js rules only when Next.js is detected
+    ignores: ['**/*.js', '**/*.ts', '**/*.jsx', '**/*.tsx'],
+    plugins: {
+      next,
+    },
+    rules: next.configs.recommended.rules,
+    settings: {
+      next: {
+        rootDir: ['apps/*/', 'packages/*/'],
+      },
+    },
+    when: (config) => config.env?.nextjs === true,
+  },
+];
